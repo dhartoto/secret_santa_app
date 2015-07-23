@@ -32,7 +32,18 @@ remember the last known assignments.
 - You cannot be your partner’s Secret Santa.
 
 ## Input
-There are no restrictions on the input format, use whatever you deem appropriate.
+Input is a CSV file with two headers: full_name and partner_full_name
 
-## Output:
-There are no restrictions on how the results are displayed.
+full_name | partner_full_name
+--------- | -----------------
+Homer Simpson | Marge Simpson
+Marge Simpson | Homer Simpson
+
+## Output
+Output will be displayed on the screen with the following details per person:
+- full name
+- secret santa
+- previous year secret santa
+
+## Assumptions
+- Persistance of secret santa is only required for one year.
