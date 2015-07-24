@@ -80,6 +80,19 @@ describe DataImporter do
   end
 
   describe '#successful?' do
-    it { should respond_to :successful? }
+
+    context 'when status 200' do
+      it 'is successful' do
+        importer = DataImporter.new(status: 200)
+        expect(importer).to be_successful
+      end
+    end
+    
+    context 'when status 400' do
+      it 'is not successful' do
+        importer = DataImporter.new(status: 400)
+        expect(importer).not_to be_successful
+      end
+    end
   end
 end

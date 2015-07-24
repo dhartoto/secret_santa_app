@@ -18,5 +18,6 @@ class DataImporter
   end
 
   def successful?
+    status == 200
   end
 end
