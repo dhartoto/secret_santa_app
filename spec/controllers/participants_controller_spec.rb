@@ -13,7 +13,7 @@ describe ParticipantsController do
     it 'redirects to root' do
       importer = instance_double('DataImporter', successful?: true)
       allow(DataImporter).to receive(:import).and_return(importer)
-      post :create, file_name: 'file.csv', year: 2015
+      post :create, file: 'file.csv', year: 2015
       expect(response).to redirect_to :root
     end
     it 'imports data' do
@@ -26,7 +26,7 @@ describe ParticipantsController do
       it 'display success message' do
         importer = instance_double('DataImporter', successful?: true)
         allow(DataImporter).to receive(:import).and_return(importer)
-        post :create, file_name: 'file.csv', year: 2015
+        post :create, file: 'file.csv', year: 2015
         expect(flash[:success]).to eq("File uploaded successfully")
       end
     end
@@ -35,7 +35,7 @@ describe ParticipantsController do
         importer = instance_double('DataImporter',
           successful?: false, error_message: "Computer says no!")
         allow(DataImporter).to receive(:import).and_return(importer)
-        post :create, file_name: 'file.csv', year: 2015
+        post :create, file: 'file.csv', year: 2015
         expect(flash[:alert]).to eq("Computer says no!")
       end
     end

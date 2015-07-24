@@ -1,8 +1,8 @@
 class DataImporter
   attr_accessor :status, :error_message
 
-  def self.import(file_name, year)
-    uploader = FileUploader.upload(file_name)
+  def self.import(file, year)
+    uploader = FileUploader.upload(file)
     if uploader.successful?
       SecretSantaCreator.create(year)
       Year.create(year: year)

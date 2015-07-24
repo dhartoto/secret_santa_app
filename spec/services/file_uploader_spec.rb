@@ -8,6 +8,16 @@ describe FileUploader do
     end
     it { should respond_to :status }
     it { should respond_to :error_message }
+
+    context 'when valid file type' do
+      it 'saves file'
+      it 'returns status 200'
+    end
+    context 'when file present'
+    context 'when invalid file type' do
+
+    end
+
   end
 
   describe '#successful?' do

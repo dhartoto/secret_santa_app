@@ -3,7 +3,7 @@ class ParticipantsController < ApplicationController
   def index; end
 
   def create
-    importer = DataImporter.import(params[:file_name], params[:year])
+    importer = DataImporter.import(params[:file], params[:year])
     importer.successful? ? display_success_message : display_failure_message(importer)
     redirect_to :root
   end
