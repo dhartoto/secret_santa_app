@@ -1,6 +1,6 @@
 class SecretSantaCreator
 
-  def self.create
+  def self.create(year)
     new()
   end
 end
