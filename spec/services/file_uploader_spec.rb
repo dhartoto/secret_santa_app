@@ -7,7 +7,8 @@ describe FileUploader do
   describe '.upload' do
 
     it 'returns an instance of FileUploader' do
-      uploader = FileUploader.upload(mock_file(file_name: 'participants.csv'), 2015)
+      uploader = FileUploader.upload(mock_file(file_name: 'participants.csv'),
+        2015)
       expect(uploader).to be_an_instance_of(FileUploader)
     end
 
@@ -32,19 +33,36 @@ describe FileUploader do
       before { Fabricate(:year, year: 2015) }
 
       it 'returns status 400' do
-        resp = FileUploader.upload(mock_file(file_name: 'participants.csv', type: 'text/csv'),
-          2015)
+        resp = FileUploader.upload(mock_file(file_name: 'participants.csv',
+         type: 'text/csv'), 2015)
         expect(resp.status).to eq(400)
       end
       it 'set error_message' do
-        resp = FileUploader.upload(mock_file(file_name: 'participants.csv', type: 'text/csv'),
-          2015)
+        resp = FileUploader.upload(mock_file(file_name: 'participants.csv',
+          type: 'text/csv'), 2015)
         msg = 'Participants list for this year already exists.'
         expect(resp.error_message).to eq(msg)
       end
     end
     context 'when invalid file type' do
 
+      it 'does not save file' do
+        FileUploader.upload(mock_file(file_name: 'participants.txt',
+          type: 'text/plain'))
+        file_exist = File.exist?('public/uploads/participants.txt')
+        expect(file_exist).to eq(false)
+      end
+      it 'returns status 400' do
+        resp = FileUploader.upload(mock_file(file_name: 'participants.txt',
+          type: 'text/plain'))
+        expect(resp.status).to eq(400)
+      end
+      it 'set error_message' do
+        resp = FileUploader.upload(mock_file(file_name: 'participants.txt',
+          type: 'text/plain'))
+        msg = 'Invalid file. Please select a csv file then click submit.'
+        expect(resp.error_message).to eq(msg)
+      end
     end
   end
 
