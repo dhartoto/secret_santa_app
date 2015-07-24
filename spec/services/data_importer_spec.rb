@@ -5,8 +5,11 @@ describe DataImporter do
   describe '.import' do
 
     context 'when uploading file' do
+      let(:uploader) { instance_double('FileUploader',
+        successful?: true) }
+
       before do
-        allow(FileUploader).to receive(:upload)
+        allow(FileUploader).to receive(:upload) { uploader }
         allow(SecretSantaCreator).to receive(:create)
       end
 
@@ -27,8 +30,11 @@ describe DataImporter do
     end
 
     context 'when file upload successful' do
+      let(:uploader) { instance_double('FileUploader',
+        successful?: true) }
+
       before do
-        allow(FileUploader).to receive(:upload)
+        allow(FileUploader).to receive(:upload) { uploader }
         allow(SecretSantaCreator).to receive(:create)
       end
       it 'sets status to 200' do
