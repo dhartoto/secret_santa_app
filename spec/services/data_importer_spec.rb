@@ -7,5 +7,11 @@ describe DataImporter do
       expect(DataImporter).to respond_to(:import)
       importer = DataImporter.import('some_file.csv', 2015)
     end
+
+    it { should respond_to :error_message}
+  end
+
+  describe '#successful?' do
+    it { should respond_to :successful? }
   end
 end
