@@ -76,6 +76,21 @@ describe FileUploader do
         expect(resp.error_message).to eq(msg)
       end
     end
+
+    context 'when file is empty' do
+      let!(:resp) { FileUploader.upload(mock_file(file_name: 'empty_file.csv' ),
+        2015) }
+      after       { clear_upload_file('empty_file.csv') }
+
+      it 'returns status 400' do
+        expect(resp.status).to eq(400)
+      end
+      it 'set error_message' do
+        msg = 'File empty. Please select a file with submissions then'\
+         ' click submit.'
+        expect(resp.error_message).to eq(msg)
+      end
+    end
   end
 
   describe '#successful?' do

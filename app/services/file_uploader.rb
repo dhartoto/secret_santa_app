@@ -3,7 +3,7 @@ class FileUploader
 
   def self.upload(file, year)
     year = Year.find_by(year: year) if file
-    if year.present? || survey_file.blank? || file.content_type != 'text/csv'
+    if year.present? || file.blank? || file.content_type != 'text/csv'
       error_message = error_message(file)
       new(status: 400, error_message: error_message)
     else
