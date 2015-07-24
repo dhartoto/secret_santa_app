@@ -43,14 +43,10 @@ describe DataImporter do
         DataImporter.import('some_file.csv', 2015)
         expect(Year.first.year).to eq(2015)
       end
-      it 'saves participants' do
-        expect(ParticipantBatcher).to receive(:create)
-        DataImporter.import('some_file.csv', 2015)
-      end
     end
+    
     context 'when file upload unsuccesful' do
       it 'does not save year'
-      it 'does not save participants'
       it 'does not create secret santas'
       it 'assigns error_message'
       it 'sets status to 400'
