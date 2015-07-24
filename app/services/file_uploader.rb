@@ -3,7 +3,7 @@ class FileUploader
 
   def self.upload(file, year)
     year = Year.find_by(year: year) if file
-    if year.present? || file.content_type != 'text/csv'
+    if year.present? || survey_file.blank? || file.content_type != 'text/csv'
       error_message = error_message(file)
       new(status: 400, error_message: error_message)
     else
@@ -26,7 +26,9 @@ class FileUploader
   private
 
   def self.error_message(file)
-    if file.content_type != 'text/csv'
+    if file.blank?
+      'No file selected. Please upload a CSV file.'
+    elsif file.content_type != 'text/csv'
       'Invalid file. Please upload a CSV file.'
     else
       'Participants list for this year already exists.'
