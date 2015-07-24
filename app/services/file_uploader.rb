@@ -4,4 +4,7 @@ class FileUploader
   def self.upload(file_name)
     new()
   end
+
+  def successful?
+  end
 end

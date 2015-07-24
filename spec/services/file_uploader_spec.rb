@@ -9,4 +9,8 @@ describe FileUploader do
     it { should respond_to :status }
     it { should respond_to :error_message }
   end
+
+  describe '#successful?' do
+    it { should respond_to :successful? }
+  end
 end
