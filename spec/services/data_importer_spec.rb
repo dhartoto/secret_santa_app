@@ -24,7 +24,7 @@ describe DataImporter do
         expect(importer.status).to eq(200)
       end
       it 'creates secret santas' do
-        expect(Randomizer).to receive(:randomize)
+        expect(SecretSantaCreator).to receive(:create)
         DataImporter.import('some_file.csv', 2015)
       end
       it 'saves year' do
