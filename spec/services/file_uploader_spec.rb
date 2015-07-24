@@ -30,14 +30,15 @@ describe FileUploader do
 
     context 'when year already present' do
       before { Fabricate(:year, year: 2015) }
-      after { File.delete('public/uploads/participants.csv') }
 
       it 'returns status 400' do
-        resp = FileUploader.upload(mock_file(file_name: 'participants.csv', type: 'text/csv'))
+        resp = FileUploader.upload(mock_file(file_name: 'participants.csv', type: 'text/csv'),
+          2015)
         expect(resp.status).to eq(400)
       end
       it 'set error_message' do
-        resp = FileUploader.upload(mock_file(file_name: 'participants.csv', type: 'text/csv'))
+        resp = FileUploader.upload(mock_file(file_name: 'participants.csv', type: 'text/csv'),
+          2015)
         msg = 'Participants list for this year already exists.'
         expect(resp.error_message).to eq(msg)
       end
