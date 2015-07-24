@@ -64,6 +64,18 @@ describe FileUploader do
         expect(resp.error_message).to eq(msg)
       end
     end
+
+    context 'when no file' do
+      it 'returns status 400' do
+        resp = FileUploader.upload(nil, 2015)
+        expect(resp.status).to eq(400)
+      end
+      it 'set error_message' do
+        resp = FileUploader.upload(nil, 2015)
+        msg = 'No file selected. Please upload a CSV file.'
+        expect(resp.error_message).to eq(msg)
+      end
+    end
   end
 
   describe '#successful?' do
