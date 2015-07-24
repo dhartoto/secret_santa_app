@@ -86,8 +86,7 @@ describe FileUploader do
         expect(resp.status).to eq(400)
       end
       it 'set error_message' do
-        msg = 'File empty. Please select a file with submissions then'\
-         ' click submit.'
+        msg = 'File empty. Please add participants and try again.'
         expect(resp.error_message).to eq(msg)
       end
     end

@@ -3,7 +3,7 @@ class FileUploader
 
   def self.upload(file, year)
     year = Year.find_by(year: year) if file
-    if year.present? || file.blank? || file.content_type != 'text/csv'
+    if year.present? || file.blank? || file.content_type != 'text/csv' || File.zero?(file.tempfile)
       error_message = error_message(file)
       new(status: 400, error_message: error_message)
     else
@@ -30,6 +30,8 @@ class FileUploader
       'No file selected. Please upload a CSV file.'
     elsif file.content_type != 'text/csv'
       'Invalid file. Please upload a CSV file.'
+    elsif File.zero?(file.tempfile)
+      'File empty. Please add participants and try again.'
     else
       'Participants list for this year already exists.'
     end
