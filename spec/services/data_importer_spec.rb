@@ -46,10 +46,14 @@ describe DataImporter do
     end
 
     context 'when file upload unsuccesful' do
+      let(:uploader) { instance_double('FileUploader',
+        successful?: false, error_message: 'error') }
+
       before do
-        allow(FileUploader).to receive(:upload)
+        allow(FileUploader).to receive(:upload) { uploader }
         allow(SecretSantaCreator).to receive(:create)
       end
+
       it 'does not save year' do
         DataImporter.import('some_file.csv', 2015)
         expect(Year.count).to eq(0)

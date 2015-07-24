@@ -3,13 +3,18 @@ class DataImporter
 
   def self.import(file_name, year)
     uploader = FileUploader.upload(file_name)
-    SecretSantaCreator.create(year)
-    Year.create(year: year)
-    new(status: 200)
+    if uploader.successful?
+      SecretSantaCreator.create(year)
+      Year.create(year: year)
+      new(status: 200)
+    else
+      new(status: 400, error_message: uploader.error_message)
+    end
   end
 
   def initialize(options={})
-    @status = options[:status]
+    @status        = options[:status]
+    @error_message = options[:error_message]
   end
 
   def successful?
