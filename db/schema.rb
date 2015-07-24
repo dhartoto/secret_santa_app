@@ -11,7 +11,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150724063352) do
+ActiveRecord::Schema.define(version: 20150724114500) do
+
+  create_table "participants", force: :cascade do |t|
+    t.string  "full_name"
+    t.string  "partner_full_name"
+    t.integer "year_id"
+  end
+
+  add_index "participants", ["year_id"], name: "index_participants_on_year_id"
 
   create_table "years", force: :cascade do |t|
     t.integer  "year"
