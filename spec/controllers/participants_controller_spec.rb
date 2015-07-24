@@ -14,5 +14,9 @@ describe ParticipantsController do
       post :create, year: 2015
       expect(response.status).to eq(200)
     end
+    it 'redirects to root' do
+      post :create, year: 2015
+      expect(response).to redirect_to :root
+    end
   end
 end
