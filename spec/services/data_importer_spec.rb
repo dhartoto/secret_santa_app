@@ -19,10 +19,22 @@ describe DataImporter do
     end
 
     context 'when file upload successful' do
-      it 'sets status to 200'
-      it 'saves year'
-      it 'saves participants'
-      it 'creates secret santas'
+      it 'sets status to 200' do
+        importer = DataImporter.import('some_file.csv', 2015)
+        expect(importer.status).to eq(200)
+      end
+      it 'creates secret santas' do
+        expect(Randomizer).to receive(:randomize)
+        DataImporter.import('some_file.csv', 2015)
+      end
+      it 'saves year' do
+        DataImporter.import('some_file.csv', 2015)
+        expect(Year.first.year).to eq(2015)
+      end
+      it 'saves participants' do
+        expect(ParticipantBatcher).to receive(:create)
+        DataImporter.import('some_file.csv', 2015)
+      end
     end
     context 'when file upload unsuccesful' do
       it 'does not save year'
