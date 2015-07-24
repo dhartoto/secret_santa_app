@@ -3,14 +3,11 @@ class FileUploader
 
   def self.upload(file, year)
     year = Year.find_by(year: year) if file
-    if year.present? || file.blank? || file.content_type != 'text/csv' || File.zero?(file.tempfile)
+    if errors?(file, year)
       error_message = error_message(file)
       new(status: 400, error_message: error_message)
     else
-      File.open(Rails.root.join('public', 'uploads',
-        file.original_filename), 'wb') do |content|
-          content.write(file.read)
-        end
+      save_file_to_folder(file)
       new(status: 200)
     end
   end
@@ -26,6 +23,10 @@ class FileUploader
 
   private
 
+  def self.errors?(file, year)
+    year.present? || file.blank? || file.content_type != 'text/csv' || File.zero?(file.tempfile)
+  end
+
   def self.error_message(file)
     if file.blank?
       'No file selected. Please upload a CSV file.'
@@ -36,5 +37,12 @@ class FileUploader
     else
       'Participants list for this year already exists.'
     end
+  end
+
+  def self.save_file_to_folder(file)
+    File.open(Rails.root.join('public', 'uploads',
+      file.original_filename), 'wb') do |content|
+        content.write(file.read)
+      end
   end
 end
