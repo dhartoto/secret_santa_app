@@ -28,8 +28,23 @@ describe FileUploader do
       end
     end
 
-    context 'when file present'
-    context 'when invalid file type'
+    context 'when file present' do
+      before { Fabricate(:year, year: 2015) }
+      after { File.delete('public/uploads/participants.csv') }
+
+      it 'returns status 400' do
+        resp = FileUploader.upload(mock_file(file_name: 'participants.csv', type: 'text/csv'))
+        expect(resp.status).to eq(400)
+      end
+      it 'set error_message' do
+        resp = FileUploader.upload(mock_file(file_name: 'participants.csv', type: 'text/csv'))
+        msg = 'Participants list for this year already exists.'
+        expect(resp.error_message).to eq(msg)
+      end
+    end
+    context 'when invalid file type' do
+
+    end
   end
 
   describe '#successful?' do
