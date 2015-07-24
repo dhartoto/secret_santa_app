@@ -41,15 +41,31 @@ describe DataImporter do
       end
       it 'saves year' do
         DataImporter.import('some_file.csv', 2015)
-        expect(Year.first.year).to eq(2015)
+        expect(Year.count).to eq(1)
       end
     end
-    
+
     context 'when file upload unsuccesful' do
-      it 'does not save year'
-      it 'does not create secret santas'
-      it 'assigns error_message'
-      it 'sets status to 400'
+      before do
+        allow(FileUploader).to receive(:upload)
+        allow(SecretSantaCreator).to receive(:create)
+      end
+      it 'does not save year' do
+        DataImporter.import('some_file.csv', 2015)
+        expect(Year.count).to eq(0)
+      end
+      it 'does not create secret santas' do
+        expect(SecretSantaCreator).not_to receive(:create)
+        DataImporter.import('some_file.csv', 2015)
+      end
+      it 'assigns error_message' do
+        importer = DataImporter.import('some_file.csv', 2015)
+        expect(importer.error_message).to eq('error')
+      end
+      it 'sets status to 400' do
+        importer = DataImporter.import('some_file.csv', 2015)
+        expect(importer.status).to eq(400)
+      end
     end
   end
 
