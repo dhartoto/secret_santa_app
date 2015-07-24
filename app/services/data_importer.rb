@@ -4,8 +4,9 @@ class DataImporter
   def self.import(file, year)
     uploader = FileUploader.upload(file, 2015)
     if uploader.successful?
+      year = Year.create(year: year)
+      ParticipantsCreator.create(year)
       SecretSantaCreator.create(year)
-      Year.create(year: year)
       new(status: 200)
     else
       new(status: 400, error_message: uploader.error_message)
