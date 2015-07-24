@@ -28,7 +28,7 @@ describe FileUploader do
       end
     end
 
-    context 'when file present' do
+    context 'when year already present' do
       before { Fabricate(:year, year: 2015) }
       after { File.delete('public/uploads/participants.csv') }
 
