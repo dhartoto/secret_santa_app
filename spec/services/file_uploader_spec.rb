@@ -48,19 +48,19 @@ describe FileUploader do
 
       it 'does not save file' do
         FileUploader.upload(mock_file(file_name: 'participants.txt',
-          type: 'text/plain'))
+          type: 'text/plain'), 2015)
         file_exist = File.exist?('public/uploads/participants.txt')
         expect(file_exist).to eq(false)
       end
       it 'returns status 400' do
         resp = FileUploader.upload(mock_file(file_name: 'participants.txt',
-          type: 'text/plain'))
+          type: 'text/plain'), 2015)
         expect(resp.status).to eq(400)
       end
       it 'set error_message' do
         resp = FileUploader.upload(mock_file(file_name: 'participants.txt',
-          type: 'text/plain'))
-        msg = 'Invalid file. Please select a csv file then click submit.'
+          type: 'text/plain'), 2015)
+        msg = 'Invalid file. Please upload a CSV file.'
         expect(resp.error_message).to eq(msg)
       end
     end

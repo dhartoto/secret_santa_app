@@ -3,8 +3,8 @@ class FileUploader
 
   def self.upload(file, year)
     year = Year.find_by(year: year) if file
-    if year.present?
-      error_message = 'Participants list for this year already exists.'
+    if year.present? || file.content_type != 'text/csv'
+      error_message = error_message(file)
       new(status: 400, error_message: error_message)
     else
       File.open(Rails.root.join('public', 'uploads',
@@ -21,5 +21,15 @@ class FileUploader
   end
 
   def successful?
+  end
+
+  private
+
+  def self.error_message(file)
+    if file.content_type != 'text/csv'
+      'Invalid file. Please upload a CSV file.'
+    else
+      'Participants list for this year already exists.'
+    end
   end
 end
