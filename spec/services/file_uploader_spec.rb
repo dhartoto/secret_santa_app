@@ -93,6 +93,19 @@ describe FileUploader do
   end
 
   describe '#successful?' do
-    it { should respond_to :successful? }
+
+    context 'when status 200' do
+      it 'is successful' do
+        uploader = FileUploader.new(status: 200)
+        expect(uploader).to be_successful
+      end
+    end
+
+    context 'when status 400' do
+      it 'is not successful' do
+        uploader = FileUploader.new(status: 400)
+        expect(uploader).not to be_successful
+      end
+    end
   end
 end
