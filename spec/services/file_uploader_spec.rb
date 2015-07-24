@@ -104,7 +104,7 @@ describe FileUploader do
     context 'when status 400' do
       it 'is not successful' do
         uploader = FileUploader.new(status: 400)
-        expect(uploader).not to be_successful
+        expect(uploader).not_to be_successful
       end
     end
   end

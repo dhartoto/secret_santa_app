@@ -21,6 +21,7 @@ class FileUploader
   end
 
   def successful?
+    status == 200
   end
 
   private
