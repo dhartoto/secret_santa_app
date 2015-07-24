@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 describe ParticipantsController do
+
   describe '#index' do
     it 'request successful' do
       get :index
