@@ -7,7 +7,7 @@ describe FileUploader do
   describe '.upload' do
 
     it 'returns an instance of FileUploader' do
-      uploader = FileUploader.upload(mock_file(file_name: 'participants.csv'))
+      uploader = FileUploader.upload(mock_file(file_name: 'participants.csv'), 2015)
       expect(uploader).to be_an_instance_of(FileUploader)
     end
 
@@ -18,12 +18,12 @@ describe FileUploader do
       after { File.delete('public/uploads/participants.csv') }
 
       it 'saves file' do
-        FileUploader.upload(mock_file(file_name: 'participants.csv'))
+        FileUploader.upload(mock_file(file_name: 'participants.csv'), 2015)
         file_exist = File.exist?('public/uploads/participants.csv')
         expect(file_exist).to eq(true)
       end
       it 'returns status 200' do
-        resp = FileUploader.upload(mock_file(file_name: 'participants.csv'))
+        resp = FileUploader.upload(mock_file(file_name: 'participants.csv'), 2015)
         expect(resp.status).to eq(200)
       end
     end
