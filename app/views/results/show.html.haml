@@ -2,9 +2,7 @@
   .row
     .col-md-12
       %h1
-        Results
-        %small
-          = @year.year
+        = "Secret Santa #{ @year.year }"
       %ol.breadcrumb
         %li
           %a{ href: root_path }
@@ -19,32 +17,22 @@
         %table.table
           %thead
             %tr
+              %th
               %td.text-center
+                %h4 Recipient
               %td.text-center
                 %h4 Secret Santa
               %td.text-center
-                %h4 Previous Secret Santa
+                %h4
+                  = "Secret Santa #{@year.year - 1}"
           %tbody
-            - @year.participants.each do |participant|
+            - @year.participants.each_with_index do |participant, index|
               %tr
+                %th
+                  = index + 1
                 %td.text-center
                   = participant.full_name
                 %td.text-center
                   = participant.current_secret_santa
-
-    -#
-    -# - @survey.themes.each do |theme|
-    -#   .panel.panel-default
-    -#     .panel-heading
-    -#       %h3= theme
-    -#     %ol.list-group
-    -#       - @survey.questions(theme).each do |question|
-    -#         %li.list-group-item.clearfix
-    -#           .col-md-10.text-large.text-muted
-    -#             = question.value
-    -#           .col-md-2.panel.panel-default.text-center.count-box.-nomargin
-    -#             .panel-body
-    -#               .count
-    -#                 = @survey.average_score_for(question)
-    -#               .count-label.text-muted.text-uppercase
-    -#                 Average score
+                %td.text-center
+                  = participant.last_secret_santa
