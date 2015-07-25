@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe SecretSantaResultsController do
+describe ResultsController do
   describe '.show' do
     it 'return 200 status' do
       get :show, id: 1
