@@ -11,7 +11,6 @@ class SecretSantaCreator
         full_name: secret_santa)
       secret_santas -= [secret_santa]
     end
-    new()
   end
 
   def self.build_constraints(participants, year)

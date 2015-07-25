@@ -2,7 +2,6 @@ require 'rails_helper'
 
 describe SecretSantaCreator do
   describe '.create' do
-    it { should be_an_instance_of(SecretSantaCreator) }
 
     let(:year) { Fabricate(:year, year: 2015) }
 

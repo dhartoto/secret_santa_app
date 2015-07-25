@@ -17,7 +17,6 @@ class ParticipantsCreator
         )
       end
     end
-    new()
   end
 
   private
