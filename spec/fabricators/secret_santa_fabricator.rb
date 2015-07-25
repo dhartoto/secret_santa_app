@@ -1,0 +1,1 @@
+Fabricator(:secret_santa)
