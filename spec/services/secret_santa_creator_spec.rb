@@ -18,7 +18,7 @@ describe SecretSantaCreator do
       end
       it 'should have different secret santas for each entry' do
         SecretSantaCreator.create(year)
-        uniq_id = SecretSanta.pluck(:giver_id).uniq
+        uniq_id = SecretSanta.pluck(:full_name).uniq
         expect(uniq_id.count).to eq(5)
       end
     end
@@ -28,11 +28,25 @@ describe SecretSantaCreator do
         SecretSantaCreator.create(year)
         first = SecretSanta.first
         last = SecretSanta.last
-        expect(first.participant_id).not_to eq(first.giver_id)
-        expect(last.participant_id).not_to eq(last.giver_id)
+        expect(first.participant.full_name).not_to eq(first.full_name)
+        expect(last.participant.full_name).not_to eq(last.full_name)
       end
-      it 'should not be their partners'
-      it 'should not not have duplicate secret santas'
+      it 'should not be their partners' do
+        homer = Fabricate(:participant, year: year, full_name: 'Homer Simpson',
+          partner_full_name: 'Marge Simpson')
+        marge = Fabricate(:participant, year: year, full_name: 'Marge Simpson',
+          partner_full_name: 'Homer Simpson')
+        fred = Fabricate(:participant, year: year, full_name: 'Fred Flintstone',
+          partner_full_name: 'Wilma Flintstone')
+        wilma = Fabricate(:participant, year: year, full_name: 'Wilma Flintstone',
+          partner_full_name: 'Fred Flintstone')
+        SecretSantaCreator.create(year)
+        expect(homer.current_secret_santa).not_to eq('Marge Simpson')
+        expect(marge.current_secret_santa).not_to eq('Homer Simpson')
+        expect(fred.current_secret_santa).not_to eq('Wilma Flintstone')
+        expect(wilma.current_secret_santa).not_to eq('Fred Flintstone')
+      end
+
       it 'should not be the same as last year'
     end
 
