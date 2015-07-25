@@ -36,7 +36,7 @@ describe ParticipantsController do
           successful?: false, error_message: "Computer says no!")
         allow(DataImporter).to receive(:import).and_return(importer)
         post :create, file: 'file.csv', year: 2015
-        expect(flash[:alert]).to eq("Computer says no!")
+        expect(flash[:danger]).to eq("Computer says no!")
       end
     end
   end
