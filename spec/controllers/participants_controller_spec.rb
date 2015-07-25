@@ -7,6 +7,11 @@ describe ParticipantsController do
       get :index
       expect(response.status).to eq(200)
     end
+    it 'assigns years' do
+      2.times { Fabricate(:year) }
+      get :index
+      expect(assigns(:years).count).to eq(2)
+    end
   end
 
   describe '#create' do
