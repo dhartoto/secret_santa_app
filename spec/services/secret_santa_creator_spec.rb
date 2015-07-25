@@ -47,11 +47,38 @@ describe SecretSantaCreator do
         expect(wilma.current_secret_santa).not_to eq('Fred Flintstone')
       end
 
-      it 'should not be the same as last year'
+      it 'should not be the same as last year' do
+        previous_year = Fabricate(:year, year: 2014)
+        homer = Fabricate(:participant, year: year, full_name: 'Homer Simpson',
+          partner_full_name: 'Marge Simpson')
+        marge = Fabricate(:participant, year: year, full_name: 'Marge Simpson',
+          partner_full_name: 'Homer Simpson')
+        fred = Fabricate(:participant, year: year, full_name: 'Fred Flintstone',
+          partner_full_name: 'Wilma Flintstone')
+        wilma = Fabricate(:participant, year: year, full_name: 'Wilma Flintstone',
+          partner_full_name: 'Fred Flintstone')
+        nicolai = Fabricate(:participant, year: year, full_name: 'Nicolai Tesla',
+          partner_full_name: nil)
+
+        Fabricate(:secret_santa, participant: homer, full_name: 'Wilma Flintstone',
+          year: previous_year )
+        Fabricate(:secret_santa, participant: marge, full_name: 'Fred Flintstone',
+          year: previous_year )
+        Fabricate(:secret_santa, participant: fred, full_name: 'Nicolai Tesla',
+          year: previous_year )
+        Fabricate(:secret_santa, participant: wilma, full_name: 'Homer Simpson',
+          year: previous_year )
+        Fabricate(:secret_santa, participant: nicolai, full_name: 'Marge Simpson',
+          year: previous_year )
+
+        SecretSantaCreator.create(year)
+        expect(homer.current_secret_santa).not_to eq('Wilma Flintstone')
+        expect(marge.current_secret_santa).not_to eq('Fred Flintstone')
+        expect(fred.current_secret_santa).not_to eq('Nicolai Tesla')
+        expect(wilma.current_secret_santa).not_to eq('Homer Simpson')
+        expect(nicolai.current_secret_santa).not_to eq('Marge Simpson')
+      end
     end
-
-    context 'when no Secret Santa last year'
-
   end
 
 end

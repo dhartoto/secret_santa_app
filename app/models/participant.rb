@@ -3,6 +3,6 @@ class Participant < ActiveRecord::Base
   has_many :secret_santa, class_name: 'SecretSanta'
 
   def current_secret_santa
-    secret_santa.last.full_name
+    secret_santa.last.full_name if secret_santa.last
   end
 end
