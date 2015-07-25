@@ -5,12 +5,17 @@ class ParticipantsCreator
 
   def self.create(file_name, year)
     file = CSV.read(path_to_file(file_name), headers: true)
-    file.each do |participant|
-      Participant.create(
-        full_name: participant['full_name'],
-        partner_full_name: participant['partner_full_name'],
-        year: year
-      )
+    file.each do |line|
+      participant = Participant.find_by(full_name: line['full_name'])
+      if participant
+        participant.update(year: year)
+      else
+        Participant.create(
+          full_name: line['full_name'],
+          partner_full_name: line['partner_full_name'],
+          year: year
+        )
+      end
     end
     new()
   end
