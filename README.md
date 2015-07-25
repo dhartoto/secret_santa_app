@@ -30,6 +30,7 @@ remember the last known assignments.
 - You cannot be your own Secret Santa.
 - You cannot be assigned the same Secret Santa that you got in the previous year.
 - You cannot be your partner’s Secret Santa.
+- You cannot have duplicate Secret Santas.
 
 ## Input
 Input is a CSV file with two headers: full_name and partner_full_name
