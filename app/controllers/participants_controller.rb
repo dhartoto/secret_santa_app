@@ -1,6 +1,8 @@
 class ParticipantsController < ApplicationController
 
-  def index; end
+  def index
+    @years = Year.all
+  end
 
   def create
     importer = DataImporter.import(params[:file], params[:year])
