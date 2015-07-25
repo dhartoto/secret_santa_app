@@ -1,15 +1,19 @@
 .container
   .row
     .col-md-12
-      %h1.text-center Secret Santa App
+      %h1 Secret Santa App
   .row
-    .col-md-6.col-md-offset-3
+    .col-md-6
       .panel.panel-default
         .panel-heading
           %h4 Upload Participants File
         .panel-body.file-upload
-          %form
-            %span.btn.btn-default.btn-file.file-upload-proxy
-              Browse for file
-            %button.btn.btn-primary.pull-right
-              Upload
+          = form_tag({controller: 'participants', action: 'create'}, multipart: true) do
+            .form-group
+              Select A Year
+              = select_tag :year, options_for_select([2015, 2014, 2013]), class: 'btn'
+            .form-group
+              %span.btn.btn-default.btn-file.file-upload-proxy
+                Browse for file
+              = file_field_tag 'file', class: 'hidden'
+              = submit_tag nil, class: "btn btn-primary pull-right"
