@@ -12,8 +12,8 @@ describe Participant do
         Fabricate(:secret_santa, participant: homer, year_id: year_id)
         year_id += 1
       end
-
-      expect(homer.current_secret_santa.id).to eq(5)
+      secret_santa = SecretSanta.last.full_name
+      expect(homer.current_secret_santa).to eq(secret_santa)
     end
   end
 end
