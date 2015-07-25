@@ -16,7 +16,8 @@ describe ResultsController do
     context 'when results are not available' do
       it 'displays error message' do
         get :show, id: 1
-        expect(assigns(:year).count).to eq(1)
+        msg = "Year not found"
+        expect(flash[:danger]).to eq(msg)
       end
       it 'redirects back to home page' do
         get :show, id: 1
