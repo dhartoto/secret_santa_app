@@ -2,11 +2,11 @@ require 'rails_helper'
 
 describe ResultsController do
   describe '.show' do
-    it 'return 200 status' do
-      get :show, id: 1
-      expect(response.status).to eq(200)
-    end
     context 'when results are available' do
+      it 'return 200 status' do
+        get :show, id: 1
+        expect(response.status).to eq(200)
+      end
       it 'returns result for the year requested' do
         year = Fabricate(:year, year: 2015)
         get :show, id: year.id
