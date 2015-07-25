@@ -8,9 +8,9 @@ describe ResultsController do
     end
     context 'when results are available' do
       it 'returns result for the year requested' do
-        year = Fabricate(:year)
+        year = Fabricate(:year, year: 2015)
         get :show, id: year.id
-        expect(assigns(:year).count).to eq(1)
+        expect(assigns(:year).year).to eq(2015)
       end
     end
     context 'when results are not available' do
