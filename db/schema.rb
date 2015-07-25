@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150725013920) do
+ActiveRecord::Schema.define(version: 20150725044229) do
 
   create_table "participants", force: :cascade do |t|
     t.string  "full_name"
@@ -23,8 +23,8 @@ ActiveRecord::Schema.define(version: 20150725013920) do
 
   create_table "secret_santa", force: :cascade do |t|
     t.integer "participant_id"
-    t.integer "giver_id"
     t.integer "year_id"
+    t.string  "full_name"
   end
 
   add_index "secret_santa", ["participant_id"], name: "index_secret_santa_on_participant_id"
