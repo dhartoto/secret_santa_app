@@ -22,11 +22,19 @@ describe SecretSantaCreator do
         expect(uniq_id.count).to eq(5)
       end
     end
-
-    it 'should not be themselves'
-    it 'should not be their partners'
-    it 'should not not have duplicate secret santas'
-    it 'should not be the same as last year'
+    context 'with constraints' do
+      it 'should not be themselves' do
+        2.times { Fabricate(:participant, year: year) }
+        SecretSantaCreator.create(year)
+        first = SecretSanta.first
+        last = SecretSanta.last
+        expect(first.participant_id).not_to eq(first.giver_id)
+        expect(last.participant_id).not_to eq(last.giver_id)
+      end
+      it 'should not be their partners'
+      it 'should not not have duplicate secret santas'
+      it 'should not be the same as last year'
+    end
 
     context 'when no Secret Santa last year'
 
