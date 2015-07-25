@@ -15,7 +15,7 @@ class ParticipantsController < ApplicationController
   end
 
   def display_failure_message(importer)
-    flash[:alert] = importer.error_message
+    flash[:danger] = importer.error_message
   end
 
 end
