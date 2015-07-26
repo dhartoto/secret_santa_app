@@ -30,15 +30,19 @@ describe SecretSantaCreator do
         expect(first.participant.full_name).not_to eq(first.full_name)
         expect(last.participant.full_name).not_to eq(last.full_name)
       end
+
+      let!(:homer) { Fabricate(:participant, year: year, full_name: 'Homer Simpson',
+        partner_full_name: 'Marge Simpson') }
+      let!(:marge) { Fabricate(:participant, year: year, full_name: 'Marge Simpson',
+        partner_full_name: 'Homer Simpson') }
+      let!(:fred) { Fabricate(:participant, year: year, full_name: 'Fred Flintstone',
+        partner_full_name: 'Wilma Flintstone') }
+      let!(:wilma) { Fabricate(:participant, year: year, full_name: 'Wilma Flintstone',
+        partner_full_name: 'Fred Flintstone') }
+      let!(:nicolai) { Fabricate(:participant, year: year, full_name: 'Nicolai Tesla',
+          partner_full_name: nil) }
+
       it 'should not be their partners' do
-        homer = Fabricate(:participant, year: year, full_name: 'Homer Simpson',
-          partner_full_name: 'Marge Simpson')
-        marge = Fabricate(:participant, year: year, full_name: 'Marge Simpson',
-          partner_full_name: 'Homer Simpson')
-        fred = Fabricate(:participant, year: year, full_name: 'Fred Flintstone',
-          partner_full_name: 'Wilma Flintstone')
-        wilma = Fabricate(:participant, year: year, full_name: 'Wilma Flintstone',
-          partner_full_name: 'Fred Flintstone')
         SecretSantaCreator.create(year)
         expect(homer.current_secret_santa).not_to eq('Marge Simpson')
         expect(marge.current_secret_santa).not_to eq('Homer Simpson')
@@ -48,27 +52,13 @@ describe SecretSantaCreator do
 
       it 'should not be the same as last year' do
         previous_year = Fabricate(:year, year: 2014)
-        homer = Fabricate(:participant, year: year, full_name: 'Homer Simpson',
-          partner_full_name: 'Marge Simpson')
-        marge = Fabricate(:participant, year: year, full_name: 'Marge Simpson',
-          partner_full_name: 'Homer Simpson')
-        fred = Fabricate(:participant, year: year, full_name: 'Fred Flintstone',
-          partner_full_name: 'Wilma Flintstone')
-        wilma = Fabricate(:participant, year: year, full_name: 'Wilma Flintstone',
-          partner_full_name: 'Fred Flintstone')
-        nicolai = Fabricate(:participant, year: year, full_name: 'Nicolai Tesla',
-          partner_full_name: nil)
-
-        Fabricate(:secret_santa, participant: homer, full_name: 'Wilma Flintstone',
-          year: previous_year )
-        Fabricate(:secret_santa, participant: marge, full_name: 'Fred Flintstone',
-          year: previous_year )
-        Fabricate(:secret_santa, participant: fred, full_name: 'Nicolai Tesla',
-          year: previous_year )
-        Fabricate(:secret_santa, participant: wilma, full_name: 'Homer Simpson',
-          year: previous_year )
-        Fabricate(:secret_santa, participant: nicolai, full_name: 'Marge Simpson',
-          year: previous_year )
+        previous_year_list =  [[homer, 'Wilma Flintstone'],
+          [marge, 'Fred Flintstone'], [fred, 'Nicolai Tesla'], [wilma, 'Homer Simpson'],
+          [nicolai, 'Marge Simpson']]
+        previous_year_list.each do |p|
+          Fabricate(:secret_santa, participant: p[0], full_name: p[1],
+            year: previous_year )
+        end
 
         SecretSantaCreator.create(year)
         expect(homer.current_secret_santa).not_to eq('Wilma Flintstone')
