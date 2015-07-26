@@ -11,15 +11,15 @@ describe ParticipantsCreator do
   describe '.create' do
     context 'when participants do not exist' do
       it 'saves participants from file' do
-        creator.create('participants.csv')
+        creator.create
         expect(Participant.count).to eq(5)
       end
       it 'saves participants full name' do
-        creator.create('participants.csv')
+        creator.create
         expect(Participant.first.full_name).to eq('Homer Simpson')
       end
       it 'saves participants partners full name' do
-        creator.create('participants.csv')
+        creator.create
         expect(Participant.first.partner_full_name).to eq('Marge Simpson')
       end
     end
@@ -27,12 +27,12 @@ describe ParticipantsCreator do
     context 'when particpants exist' do
       it 'does not create duplicates' do
         Fabricate(:participant, full_name: 'Homer Simpson')
-        creator.create('participants.csv')
+        creator.create
         expect(Participant.count).to eq(5)
       end
       it 'updates year for all participants' do
         Fabricate(:participant, full_name: 'Homer Simpson')
-        creator.create('participants.csv')
+        creator.create
         participants = Participant.where(year: year)
         expect(participants.count).to eq(5)
       end
