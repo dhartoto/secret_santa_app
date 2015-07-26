@@ -17,3 +17,14 @@
                 Browse for file
               = file_field_tag 'file', class: 'hidden'
               = submit_tag nil, class: "btn btn-primary pull-right"
+
+      %ul.files.list-group
+        - @years.each do |year|
+          %li.list-group-item.clearfix
+            = year.year
+            .btn-group.pull-right
+              = link_to result_path(year), class: "btn btn-default" do
+                View Results
+                .glyphicon.glyphicon-stats{"aria-hidden" => "true"}
+              = link_to '#', class: "btn btn-danger" do
+                .glyphicon.glyphicon-remove{"aria-hidden" => "true"}
