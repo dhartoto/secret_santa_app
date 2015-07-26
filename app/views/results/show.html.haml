@@ -26,13 +26,13 @@
                 %h4
                   = "Secret Santa #{@year.year - 1}"
           %tbody
-            - @year.participants.each_with_index do |participant, index|
+            - @year.secret_santa.each_with_index do |secret_santa, index|
               %tr
                 %th
                   = index + 1
                 %td.text-center
-                  = participant.full_name
+                  = secret_santa.participant.full_name
                 %td.text-center
-                  = participant.current_secret_santa
+                  = secret_santa.full_name
                 %td.text-center
-                  = participant.last_secret_santa
+                  = secret_santa.last_year.full_name if secret_santa.last_year
