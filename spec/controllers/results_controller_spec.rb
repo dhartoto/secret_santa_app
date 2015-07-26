@@ -29,15 +29,16 @@ describe ResultsController do
   end
 
   describe '#destroy' do
-    it 'redirects to home page' do
-      delete :destroy, id: 1
-      expect(response).to redirect_to :root
-    end
+
     context 'when results exist' do
       let(:year) { Fabricate(:year) }
       let!(:results_1) { Fabricate(:secret_santa, year: year) }
       let!(:results_2) { Fabricate(:secret_santa, year: year) }
 
+      it 'redirects to home page' do
+        delete :destroy, id: year.id
+        expect(response).to redirect_to :root
+      end
       it 'displays success message' do
         delete :destroy, id: year.id
         expect(flash[:success]).to eq("Results deleted")

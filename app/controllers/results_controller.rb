@@ -9,6 +9,9 @@ class ResultsController < ApplicationController
   end
 
   def destroy
+    year = Year.find_by(id: params[:id])
+    year.destroy
+    flash[:success] = 'Results deleted'
     redirect_to :root
   end
 end
