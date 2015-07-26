@@ -33,7 +33,7 @@ class SecretSantaCreator
     exclusions_list.each do |list|
       swapper = Participant.find_by(full_name: list[0])
       swapper_secret_santa = swapper.secret_santa.last
-      if swapper_can_receive(remainder) and subject_can_receive(swapper_secret_santa, index)
+      if swapper_can_receive(remainder, list) and subject_can_receive(swapper_secret_santa, index)
         secret_santa = swapper_secret_santa.full_name
         swapper_secret_santa.update(full_name: remainder)
         break
@@ -48,7 +48,7 @@ class SecretSantaCreator
     !exclusions_list[index].include?(swapper_secret_santa.full_name)
   end
 
-  def swapper_can_receive(remainder)
+  def swapper_can_receive(remainder, list)
     !list.include?(remainder)
   end
 

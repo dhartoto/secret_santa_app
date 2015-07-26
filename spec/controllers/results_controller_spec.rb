@@ -27,4 +27,32 @@ describe ResultsController do
       end
     end
   end
+
+  describe '#destroy' do
+
+    context 'when results exist' do
+      let(:year) { Fabricate(:year) }
+      let!(:results_1) { Fabricate(:secret_santa, year: year) }
+      let!(:results_2) { Fabricate(:secret_santa, year: year) }
+
+      it 'redirects to home page' do
+        delete :destroy, id: year.id
+        expect(response).to redirect_to :root
+      end
+      it 'displays success message' do
+        delete :destroy, id: year.id
+        expect(flash[:success]).to eq("Results deleted")
+      end
+      it 'deletes all secret santa records for selected year' do
+        delete :destroy, id: year.id
+        expect(SecretSanta.count).to eq(0)
+      end
+    end
+    context 'when results do not exist' do
+      it 'displays error message' do
+        delete :destroy, id: 2
+        expect(flash[:danger]).to eq("No results found")
+      end
+    end
+  end
 end
