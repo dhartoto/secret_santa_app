@@ -10,6 +10,7 @@ class DataImporter
       CREATORS.each do |creator|
         creator.new(year).create
       end
+      FileDeletor.delete(file)
       new(status: 200)
     else
       new(status: 400, error_message: uploader.error_message)
