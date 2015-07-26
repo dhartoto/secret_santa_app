@@ -7,4 +7,8 @@ class ResultsController < ApplicationController
       redirect_to :root
     end
   end
+
+  def destroy
+    redirect_to :root
+  end
 end
