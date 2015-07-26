@@ -6,6 +6,17 @@
 - Rails 4.2.0
 - Sqlite3 1.3.10
 
+## Instructions
+1. `git clone https://github.com/dhartoto/secret_santa_app.git`
+2. `bundle install`
+3. `bundle exec rake db:migrate`
+4. `rails c`
+5. Go to `localhost:3000` in your browser
+
+There is a sample file you can use to upload in `public/examples`
+After uploading a file, click on `View Results`.
+Or click on the `X` to delete.
+
 ## Description
 Secret Santa is a western Christmas tradition in which members of a group or
 community are randomly assigned a person to whom they anonymously give a gift.
@@ -45,6 +56,3 @@ Output will be displayed on the screen with the following details per person:
 - full name
 - secret santa
 - previous year secret santa
-
-## Assumptions
-- Persistance of secret santa is only required for one year.
