@@ -1,26 +1,26 @@
 class SecretSantaCreator
 
-  def self.create(year)
-    new(year)
-  end
-
   attr_reader :year, :participants
+  attr_accessor :exclusions_list, :name_list
 
   def initialize(year)
     @year = year
     @participants = year.participants
+  end
+
+  def create
     run_secret_santa_algorithm
   end
 
   def run_secret_santa_algorithm
-    name_list = participants.pluck(:full_name)
-    exclusions_list = build_exclusions_for_each_participant
+    self.name_list = participants.pluck(:full_name)
+    self.exclusions_list = build_exclusions_for_each_participant
 
     participants.each_with_index do |participant, index|
       possible_pool = name_list - exclusions_list[index]
       secret_santa = possible_pool.shuffle.last
       assign_secret_santa(participant, secret_santa)
-      name_list -= [secret_santa]
+      self.name_list -= [secret_santa]
     end
   end
 
