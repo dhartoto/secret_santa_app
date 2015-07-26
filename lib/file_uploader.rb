@@ -40,9 +40,14 @@ class FileUploader
   end
 
   def self.save_file_to_folder(file)
-    File.open(Rails.root.join('public', 'uploads',
-      file.original_filename), 'wb') do |content|
-        content.write(file.read)
-      end
+    File.open(folder_path.join(file.original_filename), 'wb') do |content|
+      content.write(file.read)
+    end
+  end
+
+  def self.folder_path
+    path = Rails.root.join('public', 'uploads')
+    Dir.mkdir(path) unless Dir.exist?(path)
+    path
   end
 end
