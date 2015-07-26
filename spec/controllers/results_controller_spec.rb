@@ -50,8 +50,8 @@ describe ResultsController do
     end
     context 'when results do not exist' do
       it 'displays error message' do
-        delete :destroy, id: year.id
-        expect(flash[:danger]).to eq("No results for that year")
+        delete :destroy, id: 2
+        expect(flash[:danger]).to eq("No results found")
       end
     end
   end
