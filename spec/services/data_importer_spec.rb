@@ -4,9 +4,11 @@ require 'data_importer'
 describe DataImporter do
   describe '.import' do
     let(:file) { OpenStruct.new(original_filename: 'participants.csv') }
+    let(:participants) { instance_double('ParticipantsCreator') }
+
     before do
-      allow(ParticipantsCreator).to receive(:create)
-      allow(SecretSantaCreator).to receive(:create)
+      allow(ParticipantsCreator).to receive(:new) { participants}
+      allow(participants).to receive(:create)
     end
 
     context 'when uploading file' do
@@ -15,7 +17,6 @@ describe DataImporter do
 
       before do
         allow(FileUploader).to receive(:upload) { uploader }
-        allow(SecretSantaCreator).to receive(:create)
       end
 
       it 'responds to import' do
@@ -37,17 +38,19 @@ describe DataImporter do
     context 'when file upload successful' do
       let(:uploader) { instance_double('FileUploader',
         successful?: true) }
+      let(:secret_santa) { instance_double('SecretSantaCreator') }
 
       before do
         allow(FileUploader).to receive(:upload) { uploader }
-        allow(SecretSantaCreator).to receive(:create)
+        allow(SecretSantaCreator).to receive(:new) { secret_santa }
+        allow(secret_santa).to receive(:create)
       end
       it 'sets status to 200' do
         importer = DataImporter.import(file, 2015)
         expect(importer.status).to eq(200)
       end
       it 'creates secret santas' do
-        expect(SecretSantaCreator).to receive(:create)
+        expect(SecretSantaCreator).to receive(:new)
         DataImporter.import(file, 2015)
       end
       it 'saves year' do
@@ -59,10 +62,11 @@ describe DataImporter do
     context 'when file upload unsuccesful' do
       let(:uploader) { instance_double('FileUploader',
         successful?: false, error_message: 'error') }
+      let(:secret_santa) { instance_double('SecretSantaCreator') }
 
       before do
         allow(FileUploader).to receive(:upload) { uploader }
-        allow(SecretSantaCreator).to receive(:create)
+        allow(SecretSantaCreator).to receive(:new) { secret_santa }
       end
 
       it 'does not save year' do
@@ -70,7 +74,7 @@ describe DataImporter do
         expect(Year.count).to eq(0)
       end
       it 'does not create secret santas' do
-        expect(SecretSantaCreator).not_to receive(:create)
+        expect(SecretSantaCreator).not_to receive(:new)
         DataImporter.import(file, 2015)
       end
       it 'assigns error_message' do
