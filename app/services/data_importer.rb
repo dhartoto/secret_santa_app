@@ -5,8 +5,10 @@ class DataImporter
     uploader = FileUploader.upload(file, 2015)
     if uploader.successful?
       year = Year.create(year: year)
-      ParticipantsCreator.create(file.original_filename, year)
-      SecretSantaCreator.create(year)
+      participants = ParticipantsCreator.new(year)
+      secret_santa = SecretSantaCreator.new(year)
+      participants.create(file.original_filename)
+      secret_santa.create
       new(status: 200)
     else
       new(status: 400, error_message: uploader.error_message)
