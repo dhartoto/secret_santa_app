@@ -18,10 +18,28 @@ class SecretSantaCreator
 
     participants.each_with_index do |participant, index|
       possible_pool = name_list - exclusions_list[index]
-      secret_santa = possible_pool.shuffle.last
+      secret_santa = possible_pool.shuffle.last unless possible_pool.empty?
+      secret_santa = santa_swap(name_list.first, index) if possible_pool.empty?
       assign_secret_santa(participant, secret_santa)
       self.name_list -= [secret_santa]
     end
+  end
+
+  # Occasionally the last person to be assigned a secret santa is left with a
+  # name that would breach the constraint. #santa_shuffle finds an
+  # eligable person who can switch secret santa.
+  def santa_swap(remainder, index)
+    secret_santa = nil
+    exclusions_list.each do |list|
+      if not list.include?(remainder)
+        swapper = Participant.find_by(full_name: list[0])
+        swapper_secret_santa = swapper.secret_santa.last
+        secret_santa = swapper_secret_santa.full_name
+        swapper_secret_santa.update(full_name: remainder)
+        break
+      end
+    end
+    secret_santa
   end
 
   private

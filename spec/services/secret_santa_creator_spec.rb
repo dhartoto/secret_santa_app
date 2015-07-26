@@ -5,9 +5,19 @@ describe SecretSantaCreator do
 
     let(:year) { Fabricate(:year, year: 2015) }
     let(:creator) { SecretSantaCreator.new(year) }
+    
+    let!(:homer) { Fabricate(:participant, year: year, full_name: 'Homer Simpson',
+      partner_full_name: 'Marge Simpson') }
+    let!(:marge) { Fabricate(:participant, year: year, full_name: 'Marge Simpson',
+      partner_full_name: 'Homer Simpson') }
+    let!(:fred) { Fabricate(:participant, year: year, full_name: 'Fred Flintstone',
+      partner_full_name: 'Wilma Flintstone') }
+    let!(:wilma) { Fabricate(:participant, year: year, full_name: 'Wilma Flintstone',
+      partner_full_name: 'Fred Flintstone') }
+    let!(:nicolai) { Fabricate(:participant, year: year, full_name: 'Nicolai Tesla',
+        partner_full_name: nil) }
 
     context 'when no constraints' do
-      before { 5.times { Fabricate(:participant, year: year) } }
 
       it 'should create a secret santa for each person' do
         creator.create
@@ -27,24 +37,12 @@ describe SecretSantaCreator do
     context 'with constraints' do
 
       it 'should not be themselves' do
-        2.times { Fabricate(:participant, year: year) }
         creator.create
         first = SecretSanta.first
-        last = SecretSanta.last
+        second = SecretSanta.second
         expect(first.participant.full_name).not_to eq(first.full_name)
-        expect(last.participant.full_name).not_to eq(last.full_name)
+        expect(second.participant.full_name).not_to eq(second.full_name)
       end
-
-      let(:homer) { Fabricate(:participant, year: year, full_name: 'Homer Simpson',
-        partner_full_name: 'Marge Simpson') }
-      let(:marge) { Fabricate(:participant, year: year, full_name: 'Marge Simpson',
-        partner_full_name: 'Homer Simpson') }
-      let(:fred) { Fabricate(:participant, year: year, full_name: 'Fred Flintstone',
-        partner_full_name: 'Wilma Flintstone') }
-      let(:wilma) { Fabricate(:participant, year: year, full_name: 'Wilma Flintstone',
-        partner_full_name: 'Fred Flintstone') }
-      let(:nicolai) { Fabricate(:participant, year: year, full_name: 'Nicolai Tesla',
-          partner_full_name: nil) }
 
       it 'should not be their partners' do
         creator.create
@@ -70,6 +68,32 @@ describe SecretSantaCreator do
         expect(wilma.current_secret_santa).not_to eq('Homer Simpson')
         expect(nicolai.current_secret_santa).not_to eq('Marge Simpson')
       end
+    end
+  end
+
+  # To test #santa_swap, change code in SecretSantaCreator from
+  # secret_santa = possible_pool.shuffle.last to
+  # secret_santa = possible_pool.first
+  # This replicates the senario where the last person has no eligable
+  # secret santas. In this case because it's himself.
+  describe '#santa_swap' do
+    let(:year) { Fabricate(:year, year: 2015) }
+
+    let!(:homer) { Fabricate(:participant, year: year, full_name: 'Homer Simpson',
+      partner_full_name: 'Marge Simpson') }
+    let!(:marge) { Fabricate(:participant, year: year, full_name: 'Marge Simpson',
+      partner_full_name: 'Homer Simpson') }
+    let!(:fred) { Fabricate(:participant, year: year, full_name: 'Fred Flintstone',
+      partner_full_name: 'Wilma Flintstone') }
+    let!(:wilma) { Fabricate(:participant, year: year, full_name: 'Wilma Flintstone',
+      partner_full_name: 'Fred Flintstone') }
+    let!(:nicolai) { Fabricate(:participant, year: year, full_name: 'Nicolai Tesla',
+        partner_full_name: nil) }
+
+    it 'finds an eligable person to swap with' do
+      creator = SecretSantaCreator.new(year)
+      creator.create
+      expect(SecretSanta.pluck(:full_name)).not_to include(nil)
     end
   end
 end
