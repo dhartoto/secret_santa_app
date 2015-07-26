@@ -26,5 +26,5 @@
               = link_to result_path(year), class: "btn btn-default" do
                 View Results
                 .glyphicon.glyphicon-stats{"aria-hidden" => "true"}
-              = link_to '#', class: "btn btn-danger" do
+              = link_to result_path(year), class: "btn btn-danger", method: 'delete' do
                 .glyphicon.glyphicon-remove{"aria-hidden" => "true"}
