@@ -27,4 +27,11 @@ describe ResultsController do
       end
     end
   end
+
+  describe '#destroy' do
+    it 'redirects to home page' do
+      delete :destroy, id: 1
+      expect(response).to redirect_to :root
+    end
+  end
 end
