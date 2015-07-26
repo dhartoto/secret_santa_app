@@ -7,7 +7,7 @@ class DataImporter
       year = Year.create(year: year)
       participants = ParticipantsCreator.new(year)
       secret_santa = SecretSantaCreator.new(year)
-      participants.create(file.original_filename)
+      participants.create
       secret_santa.create
       new(status: 200)
     else
