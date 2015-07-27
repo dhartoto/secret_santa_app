@@ -4,7 +4,7 @@ class DataImporter
   attr_accessor :status, :error_message
 
   def self.import(file, year)
-    uploader = FileUploader.upload(file, 2015)
+    uploader = FileUploader.upload(file, year)
     if uploader.successful?
       year = Year.create(year: year)
       CREATORS.each do |creator|
