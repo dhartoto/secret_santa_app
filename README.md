@@ -17,6 +17,11 @@ There is a sample file you can use to upload in `public/examples`
 After uploading a file, click on `View Results`.
 Or click on the `X` to delete.
 
+## Diagrams
+- https://github.com/dhartoto/secret_santa_app/blob/master/flow_cart.pdf
+- https://github.com/dhartoto/secret_santa_app/blob/master/secret_santa_erd.pdf
+- https://github.com/dhartoto/secret_santa_app/blob/master/sequence_diagram.pdf
+
 ## Description
 Secret Santa is a western Christmas tradition in which members of a group or
 community are randomly assigned a person to whom they anonymously give a gift.
